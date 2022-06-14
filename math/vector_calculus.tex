@@ -1,0 +1,95 @@
+\documentclass[a4paper,10pt,uplatex]{jsarticle}
+
+
+% 数式
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage[thicklines]{cancel}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tikz}
+
+\newcommand{\rot}{\mathrm{rot}\;}
+\renewcommand{\div}{\mathrm{div}\;}
+\renewcommand{\grad}{\mathrm{grad}\;}
+\newcommand{\E}{\vb*{E}}
+\newcommand{\B}{\vb*{B}}
+\newcommand{\D}{\vb*{D}}
+\renewcommand{\P}{\vb*{P}}
+\renewcommand{\H}{\vb*{H}}
+\newcommand{\A}{\vb*{A}}
+\newcommand{\x}{\vb*{x}}
+\renewcommand{\i}{\vb*{i}}
+\newcommand{\n}{\vb*{n}}
+
+\begin{document}
+
+\title{ベクトル解析}
+\author{}
+\date{\today}
+\maketitle
+
+\section{直交曲線座標系でのベクトル演算子}
+直交曲線座標系を$(t_1, t_2, t_3)$ととる（例えば極座標$(r,\theta,\phi$)など）．$t_i$の方向に距離$ds_i$だけ移動すると，座標は$t_i+dt_i$になる．逆に，座標$t_i + dt_i$になるには，距離$ds_i$だけ移動しなければならないとも言える．このとき$dt_i$と$ds_i$の間には$ds_i = h_i dt_i$という関係が成り立つ．$h_i$は$t_j$の関数である．
+
+\subsection{勾配（gradient）}
+あるスカラー関数$f$について，ある点から，その点の周りで値が最も大きくなる方向はどちらかを知りたい．つまり，勾配（gradient）を求めたい．そのためには，各方向について，少しだけ移動してみて，その変化具合を調べればよい．デカルト座標系では，$x$方向ならば$dx$移動して$f(x+dx)$の値を調べてくれば，$x$方向の傾きがわかる．一般の直交曲線座標系では$t_i$方向に移動して$f(t_i+dt_i)$を調べるには，$ds_i$だけ移動する必要がある．したがって勾配は
+\begin{equation}
+    \pdv{s_i} = \frac{1}{h_i}\pdv{t_i}
+\end{equation}
+となる．
+
+静電場と静電ポテンシャルの関係式
+\begin{equation}
+    \E(\x) = -\grad \phi(\x)
+\end{equation}
+は，電場は，静電ポテンシャルが最もはやく減る方向を向いていることを意味している．
+
+\subsection{発散（divergence）}
+ベクトル関数$f$について，ベクトルは大きさを持った矢印で，流れのようなイメージを持つ．流れというからには発生源があるだろうから，その「湧き出し」というものを調べたい．これが発散（divergence）である．そのためには，微小体積の領域を考えて，その領域での流出量を調べればよい．流出量が正ならば，その領域には流れの発生源があることになる．\footnote{ここに図を挿入}
+\begin{align}
+    &f_1(t+dt_1, t_2, t_3) ds_2' ds_3' - f_1(t_1, t_2, t_3) ds_2 ds_3 \\
+    &\quad = \left(f_1 + \pdv{f_1}{t_1}dt_1\right)\left(h_2+\pdv{h_2}{t_1}dt_1\right)dt_2\left(h_3+\pdv{h_3}{t_1}dt_1\right)dt_3 - f_1h_2h_3dt_2dt_3 \\
+    &\quad = \left(f_1h_2\pdv{h_3}{t_1}dt_1 + f_1h_3\pdv{h_2}{t_1}dt_1 + h_2h_3\pdv{f_1}{t_1}dt_1\right)dt_2dt_3 \\
+    &\quad = \pdv{t_1}(f_1h_2h_3)dt_1dt_2dt_3
+\end{align}
+途中の計算で4次以上の項は無視した．同様にして$t_2$方向，$t_3$方向についても流出量を計算すると，全体で合計は
+\begin{equation}
+    dt_1dt_2dt_3 \sum_i \pdv{t_i}\left(\frac{h_1h_2h_3f_i}{h_i}\right)
+\end{equation}
+となる．ところで，微小体積は（$h_i$が$t_j$によるので）座標によって変わってしまう．つまり上の結果には領域のとり方の影響が残っている．微小体積$dV = ds_1ds_2ds_3$で割ることで，単位体積あたりの流出量となって，これは領域のとり方によらない値となる．これが発散である：
+\begin{equation}
+    \frac{1}{h_1h_2h_3} \sum_i \pdv{t_i}\left(\frac{h_1h_2h_3f_i}{h_i}\right)
+\end{equation}
+
+電場と電荷密度の関係式
+\begin{equation}
+    \E(\x,t) = \frac{\rho(\x,t)}{\varepsilon_0}
+\end{equation}
+は，電場は電荷から湧き出てくる（発生する）ことを意味している．
+
+\subsection{Laplacian}
+これまで考えてきた勾配と発散を組み合わせた演算子$\Delta = \div \grad$がLaplacianである．この表記だとスカラー関数にしか作用できないが，実際にはベクトル関数にも作用できる．ベクトルの各要素に対して作用する．
+
+まずはスカラー関数に作用することを考える．勾配の発散である．勾配というのは，どちらに進めば最も値が大きく変化するかを表すものだった．したがって，勾配のベクトル場を考えると，極大値を取るところではベクトルが一点に集まってくるようになっている．逆に，極小値を取るところでは，ベクトルが一点から外に出ていくようになっている．この発散を考えると，流出量を考えるのだから，極大値では負，極小値では正をとる．一方で，勾配が一定の方向を向いている場合や，一方向だけ見ると流入/出過多でも，他の方向の流出/入も考慮するとちょうどキャンセルしあっているような場合にも0になる．
+ベクトル関数に作用するときは，各成分に対して，スカラー関数と同じように作用するので，あまり違いはない．
+
+このような考察から，スカラー関数に対するLaplacianは，「起伏」を表すようなものであるとイメージできる．その点が山にあたるなら負の値を，谷にあたるなら正の値を，平らな台地なら0をとる．そして，ベクトル関数に対しては，関数の成分の「起伏」を成分にもつベクトルを得る\footnote{これが何を意味するのかはよくわからない}．
+
+Laplacianの公式は，上で求めた勾配，発散の公式を使えばすぐに出てくる．
+\begin{equation}
+    \Delta f = \div \grad f = \frac{1}{h_1h_2h_3} \sum_i \pdv{t_i}\left(\frac{h_1h_2h_3}{h_i^2}\pdv{f}{t_i}\right)
+\end{equation}
+
+Poisson方程式
+\begin{equation}
+    \Delta \phi(\x) = -\frac{1}{\varepsilon_0}\rho(\x)
+\end{equation}
+は，電荷によって静電ポテンシャルは起伏を持つことを意味している．正電荷ならば山に，負電荷ならば谷になる．電場は，このようにしてできた静電ポテンシャルの起伏を，最も急激に下るような方向を向いている．
+
+\end{document}

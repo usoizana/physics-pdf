@@ -1,0 +1,171 @@
+\documentclass[a4paper,10pt,uplatex]{jsarticle}
+
+
+% 数式
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage[thicklines]{cancel}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tikz}
+
+\newcommand{\rot}{\mathrm{rot}}
+\renewcommand{\div}{\mathrm{div}}
+\renewcommand{\grad}{\mathrm{grad}}
+\newcommand{\E}{\vb*{E}}
+\newcommand{\B}{\vb*{B}}
+\newcommand{\D}{\vb*{D}}
+\renewcommand{\P}{\vb*{P}}
+\renewcommand{\H}{\vb*{H}}
+\newcommand{\A}{\vb*{A}}
+\newcommand{\x}{\vb*{x}}
+\renewcommand{\i}{\vb*{i}}
+\newcommand{\n}{\vb*{n}}
+
+\begin{document}
+
+\title{理論電磁気学　復習ノート}
+\author{}
+\date{\today}
+\maketitle
+
+\section{Maxwell方程式}
+\subsection{電磁気学の基礎方程式：Maxwell方程式}
+電磁気学の基礎方程式，Maxwell方程式は次のようなものだ．
+\begin{align}
+    &\rot \E(\x,t) + \pdv{\B(\x,t)}{t} = 0 \\
+    &\div \E(\x,t) = \frac{\rho(\x, t)}{\varepsilon_0} \\
+    &\rot \B(\x,t) - \varepsilon_0\mu_0\pdv{\E(\x,t)}{t} = \mu_0\i(\x,t) \\
+    &\div \B(\x,t) = 0
+\end{align}
+真空中の式であることに注意．
+
+\subsection{電磁気学の登場人物}
+電場$\E$と磁場$\B$の二人が主人公だ．電場と磁場は空間の各点に存在する．どちらの場についても，各点に存在する場は，自分のまわりの非常に近い点のことしかわからない．電場と磁場はお互いを見ることができる．また，電場は電荷を見ることができる．一方で磁場は，電荷を，動いているときにしか見ることができない．%要検討．磁場は電荷を見ることができる？Maxwell-e.q.だと，磁場は電流としてしか電荷を認識していないように見える．
+
+電荷は，点電荷のようなものよりは，実際はぼんやりとした雲のようなものを想像したほうが良いだろう．しかし，ぼんやりしていない，古典力学的な質点のようなもののほうが扱いやすいので，そういう立場を取ることもある．
+
+\section{静電場}
+\subsection{物質中のMaxwell方程式の復習}
+\begin{align}
+    &\rot \E(\x,t) + \pdv{\B(\x,t)}{t} = 0\\
+    &\div \D(\x,t) = \rho_e(\x,t) \\
+    &\rot \H(\x,t) - \pdv{\E(\x,t)}{t} = \i_e(\x,t) \\
+    &\div \B(\x,t) = 0
+\end{align}
+
+\subsection{Thomsonの定理}
+Thomsonの定理の主張は，「静電場ならば，Maxwell方程式を破っていてもよい他の電場と比較して，場のエネルギーは最小になる」というものである．直感的には，何らかの操作を施した後，系が最終的に落ち着く状態は，系のエネルギーが最小になるようになっていると思われる．Maxwell方程式を前提とおけば，つまり静電場の条件が必ず成り立つと過程すれば，その直感はそのとおりであるというのが，この定理の主張である．Maxwell方程が正しそうであることを裏付ける定理だ（あくまで正し"そう"）．
+
+\subsection{Greenの相反定理}
+$n$個の導体が空間中に固定されている状況を考える．各導体に電荷$Q_i$を与え，電位が$\phi_i$であるとする．別の設定として，電荷$Q_i'$を与え，電位が$\phi_i'$であるとする．このとき
+\begin{equation}
+    \sum_{i} Q_i \phi_i' = \sum_{i} Q_i' \phi_i
+\end{equation}
+が成り立つ．これがGreenの相反定理である．以下は導出．まず，各導体を代表する点（導体内部の点）$\vb*{r}_i$を決める．導体$i$の電位は導体内部で等しく，
+\begin{equation}
+    \phi_i = \frac{1}{4\pi\varepsilon}\sum_{j\neq i} \int_{V_j} \frac{\rho_e(\vb*{x}')}{|\vb*{r}_i - \vb*{x}'|} \dd[3]{x'}
+\end{equation}
+である．ここで$V_j$は導体$j$を含む領域で，$j\neq k$ならば$V_j \cap V_k = \phi$である．次に
+\begin{equation}
+    \int_{V_j} \frac{\rho_e(\vb*{x}')}{|\vb*{r}_i - \vb*{x}'|} \dd[3]{x'} \approx \frac{Q_j}{|\vb*{r}_i - \vb*{r}_j|} = \frac{Q_j}{r_{ij}}
+\end{equation}
+と近似する．これは多重極展開における一番初めの項である．導体が電荷$Q_j \neq 0$を持っているので，次の項以降に現れる1階以上のテンソル量は物理的意味を持たない．この近似により
+\begin{equation}
+    \phi_i = \frac{1}{4\pi\varepsilon} \sum_{j\neq i}\frac{Q_j}{r_{ij}}
+\end{equation}
+となる．あとは以下のような計算をする．
+\begin{align}
+    Q_i'\phi_i &= \frac{1}{4\pi\varepsilon} \sum_{j\neq i}\frac{Q_i' Q_j}{r_{ij}} \\
+    \sum_{i} Q_i' \phi_i &= \frac{1}{4\pi\varepsilon} \sum_{i}\sum_{j\neq i}\frac{Q_i' Q_j}{r_{ij}} \\
+    \sum_{i} Q_i' \phi_i &= \sum_{i} Q_i \left(\frac{1}{4\pi\varepsilon} \sum_{j \neq i} \frac{Q_j'}{r_{ij}} \right) = \sum_{i} Q_i \phi_i' \qed
+\end{align}
+
+\subsection{静電容量係数・静電誘導係数}
+Greenの相反定理を用いて，$n$個の導体が固定されている系について考察をする．$i$番目の導体にのみ単位電荷を与えることを考える．このとき$Q_j = \delta_{ij}$である．電位は$\phi_j = P_{ij}$とする．別の設定として，電荷$Q_j'$を与え，電位が$\phi_j'$とする．Greenの相反定理より，
+\begin{equation}
+    \sum_j Q_j \phi_j' = \sum_j \delta_{ij} \phi_j' = \phi_i' = \sum_j P_{ij}Q_j'
+\end{equation}
+電荷$Q_j'$は好きにできるので，これを改めて$Q_j$と書き直せば，電荷と電位の間の関係式
+\begin{equation}
+    \phi_i = \sum_j P_{ij} Q_j
+\end{equation}
+が得られる．この$P_{ij}$を電位係数と呼ぶ．導体の形状や位置のみによる，系固有の量である．$P_{ij} = P_{ji}$である：電荷$Q_k = \delta_{ik}$，電位$\phi_k = P_{ik}$のときと電荷$Q_k = \delta_{jk}$，電位$\phi_k = P_{jk}$のときを比べる．Greenの相反定理より，
+\begin{align}
+    \sum_k \delta_{ik}P_{jk} &= \sum_k \delta_{jk}P_{ik} \\
+    P_{ji} &= P_{ij}
+\end{align}
+
+今度は，電荷と電位の立場を逆にして考える．$i$番目の導体のみを1 Voltにする．このとき$\phi_j = \delta_{ij}$である．電荷は$Q_j = C_{ij}$とする．その後，電位を$\phi_j'$に変えて，そのときの電荷が$Q_j'$とする．Greenの相反定理より，
+\begin{equation}
+    \sum_j Q_j' \phi_j = \sum_j Q_j' \delta_{ij} = Q_i' = \sum_j C_{ij}\phi_j'
+\end{equation}
+こうして関係式
+\begin{equation}
+    Q_i = \sum_j C_{ij} \phi_j
+\end{equation}
+が得られる．$C_{ii}$を静電容量係数，$C_{ij}$（$i \neq j$）を静電誘導係数という．$P_{ij}$と同様に$C_{ij} = C_{ji}$が成り立つ．$C_{ii}$は，導体$i$の他の導体をすべて接地したとき（$\phi_j = \delta_{ij}$）に$\phi_i$を1 Voltにするのに必要な電荷なので，この系における静電容量そのものである．しかし導体$i$が電荷を持つことで電場が発生し，それによって他の導体は接地されていても電荷は持ち，その電荷は導体$i$にも影響を与える．したがって孤立系における静電容量とは全く別物であることに注意しなければならない．
+
+電位係数と静電誘導（容量）係数それぞれについての電荷と電位の関係式についてみると，電荷，電位をベクトル，電位係数，静電誘導（容量）係数を行列としてみなせる：
+\begin{equation}
+    \vb*{\phi} = P\vb*{Q}, \quad \vb*{Q} = C\vb*{\phi}
+\end{equation}
+これから，$C = P^{-1}$がわかる．\footnote{このことと，$P$が対称行列であることから$C$が対称行列であることがわかる，つまり$C_{ij} = C_{ji}$}クラメルの公式より，
+\begin{equation}
+    C = P^{-1} = \frac{1}{|P|} \hat{P}
+\end{equation}
+である．ここで$\hat{P}$は余因子行列．
+
+\subsection{コンデンサ}
+電荷$+Q$と$-Q$をもつ2つの導体を考えて，一方の導体から出る電気力線がもう一方の導体にすべて入っていくとき，これらはコンデンサをなしていると言う．2つの導体の電位をそれぞれ$\phi_1$，$\phi_2$とするとき，このコンデンサの静電容量を
+\begin{equation}
+    C \coloneqq \frac{Q}{\phi_1 - \phi_2}
+\end{equation}
+で定義する．孤立系の導体の静電容量は，相方の導体が無限に遠くにある（ので，$\phi_2 \to 0$である）コンデンサの静電容量であると言える．
+
+\subsection{誘電体中のGaussの法則}
+\begin{comment}
+    よくわかっていない．$S_1$，$S_2$を真電荷を囲む任意の曲面とする．曲面のとり方に依らず
+    \begin{equation}
+        \int_{S_1} \P(\x) \cdot \n(\x) \dd{S} = \int_{S_2} \P(\x) \cdot \n(\x) \dd{S}
+    \end{equation}
+    が成り立つのが納得いかない．これが成り立つとすると，分極電荷を$\rho_d(\x)$として，Gaussの定理より，
+    \begin{equation}
+        \int_{V_1} \rho_d(\x) \dd[3]{x} = \int_{V_2} \rho_d(\x) \dd[3]{x}
+    \end{equation}
+    となる．
+\end{comment}
+% 分極電荷は，均一ならば誘電体内部で0で，真電荷のまわりと表面のみでnon-zeroである．
+
+\subsubsection{直感的なイメージだけで説明}
+実際の計算は教科書を追ってもらうとして，ここでは言葉でイメージを語ってみる．\footnote{自分が分極ベクトルのイメージが全くつかなくて困ったので，かなり分量を取って書く．電場が主人公，ということを意識したら，なんとなくイメージはつかめた気がしている．}
+
+電荷は，雲のようなものを想像しよう．原子は，分極していない状態では，負の雲と正の雲が重なりあって，電荷がないように見える．分極すると，重なり合っていた雲が少しずれて，0でない部分が現れる．
+
+誘電体内に真電荷をもつ物体を置くと，そのまわりの原子は分極して，真電荷側に，異符号の雲が現れる．誘電体内では各原子は分極しているのだが，負の雲と正の雲がうまい具合にいくつか重なって，電荷がないように見える．表面ではそうもいかず，他の雲と重なれなかった部分が表面に現れる．
+
+電場の立場になってみると，まず真電荷によってそこの電場が成分を作り出す．それを誘電体内の電場に伝える．誘電体内の電場は，分極によって真電荷をもつ物体との境界では弱められるが，それ以降は電荷がないように見えているので，電荷の影響は受けずに表面まで伝播する．表面では今度は先ほどとは逆に強められる．積分形のGaussの法則によれば，誘電体の外に出てしまえば，電場の総和は結局真電荷の影響しか受けていないはずだから，表面で逆に強められる総量は，最初に弱められた総量と同じになる．
+
+さて，分極ベクトルは「通過した」電荷の方向と量を考えている．電場の立場になって見てみれば，分極ベクトルは物理的実体があるわけではなく，ただ，真電荷を置く前と，置いた後に定常状態になる間の交通量調査みたいなものだ．誘電体の存在がどれくらい電場に影響を与えているのかを定量的に表すための道具なのだ．また，先程の考察から，表面に現れる電荷の絶対値の総量と，真電荷を持った物体のまわりで分極して現れた電荷の絶対値の総量は同じである．
+こうしてみると，真電荷を正とすると，そのまわりに現れた原子の負の部分の相方の正の部分が，誘電体の表面まで移動してきたようにも見える（実際には影響が伝播しているだけであることに注意）．そうすれば，移動している電荷の量は途中で変わらないから，分極ベクトルを，誘電体内の真電荷を囲む任意の閉曲面上で足し合わせても，値は同じになることは明らかに思える．
+
+誘電体内では電場が弱められているのだが，それを表現するためにいちいち分極ベクトルを持ち出すのも面倒なので，電束密度$\D$というものを新しく定義してみる．そうすれば，物質中でもMaxwell方程式がきれいに保たれる．電束密度というのは，便利だから導入された量に過ぎないのである．
+
+\subsection{誘電体の境界条件}
+静電場では，異なる誘電体間の境界で電場・電束密度はどうなっているだろうか？
+
+\begin{center}
+    いろいろ計算
+\end{center}
+
+\begin{itemize}
+    \item 電束密度$\D$の境界面の法線成分は連続．
+    \item 電場$\E$の境界面の接線成分は連続．
+\end{itemize}
+境界面の法線は一本だけだが，接線というのは接平面上の任意の直線のことで，無限にある．このことに注意すると，境界面の電場の接平面への射影は，同一直線上にあることがわかる．
+\end{document}

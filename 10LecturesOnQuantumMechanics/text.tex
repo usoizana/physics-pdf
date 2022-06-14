@@ -1,0 +1,219 @@
+\documentclass[a4paper,10pt,uplatex]{jsarticle}
+
+
+% 数式
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage[thicklines]{cancel}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tikz}
+
+
+\begin{document}
+
+\title{量子力学10講 復習ノート}
+\author{}
+\date{\today}
+\maketitle
+
+\renewcommand{\A}{\hat{A}}
+\newcommand{\U}{\hat{U}}
+\newcommand{\X}{\hat{X}}
+\renewcommand{\P}{\hat{P}}
+\newcommand{\I}{\hat{I}}
+\renewcommand{\H}{\hat{H}}
+\renewcommand{\N}{\hat{N}}
+\renewcommand{\inf}{\infty}
+
+
+\section{第9講 運動方程式}
+今までは，測定に時間がかからない（一瞬で行われる，物理量に影響がない）状況で，測定する前後の一瞬を考えてきた．しかし現実の系は当然時間変化する．これを定量的に扱うことを考える．\footnote{教科書とは異なる順序で議論を組み立てる．自主ゼミで発表した．得られる結果は変わらない．}
+
+\subsection{時間発展演算子}
+まず時間を進める演算子$\U(t)$を導入する．ここで$\U(t)$はユニタリであることを要請する：$\U(t)^\dagger \U(t) = \I$．次の性質がある．
+\begin{align}
+    &\hat{U}(t)\hat{U}(s) = \hat{U}(t+s) \\
+    &\hat{U}(0) = \hat{I} \\
+    &\hat{U}(t)^\dagger = (\hat{U}(t))^{-1} = \hat{U}(-t)
+\end{align}
+上から，「$t$の経過と$s$の経過を合わせると$t+s$の経過になる」，「初期状態は変化をうまない」，「逆演算は逆向きの時間経過」という意味．
+
+\subsection{シュレディンガー描像とハイゼンベルグ描像}
+量子系の時間変化の記述には，シュレディンガー描像とハイゼンベルグ描像という，二通りの流儀がある：
+\begin{description}
+    \item[シュレディンガー描像] 状態が変化，物理量は不変．
+    \item[ハイゼンベルグ描像] 物理量が変化，状態は不変．
+\end{description}
+シュレディンガーとハイゼンベルグは，同時期に別々に上記の描像を発表した．これらは同値な結果を与える．
+
+シュレディンガー描像では，状態が変化し，それは次のように表される．
+\begin{equation}
+    \ket{\psi(t)} = \U(t)\ket{\psi(0)}
+\end{equation}
+このとき物理量の期待値は
+\begin{align}
+    \ev*{\A}_t &= \ev{\A}{\psi(t)} \\
+    &= \ev*{\A}{\U(t)\psi} \\
+    &= \ev{\U(t)^\dagger\A\U(t)}{\psi} = \ev{\A(t)}{\psi}
+\end{align}
+と表される．一行目の式がシュレディンガー描像，三行目の式がハイゼンベルグ描像を表している．
+
+\subsection{シュレディンガー描像}
+\subsubsection{確率の保存}
+まず，Bornの確率公式を使って考察してみよう．時間変化を含めたBornの確率公式は以下のようになる．
+\begin{equation}
+    \mathbb{P}(\ket{\chi} \xleftarrow{t} \ket{\psi}) = |\braket{\chi}{\psi(t)}|^2 = |\mel{\chi}{\U(t)}{\psi}|^2
+\end{equation}
+これは，初期状態$\ket{\psi}$が時刻$t$には状態$\ket{\psi(t)}$に変化して，そのときに$\ket{\chi}$に瞬時に遷移する確率を表している．ここでは$\ket{\chi}$を時間によらず一定にとったが，$\ket{\chi}$も$\ket{\psi}$とともに時間変化させるとどうなるだろう？時刻$t$においてこの確率は以下のようになる．
+\begin{align}
+    \mathbb{P}(\ket{\chi(t)} \leftarrow \ket{\psi(t)}) = |\braket{\chi(t)}{\psi(t)}|^2 = |\braket*{\U(t)\chi}{\U(t)\psi}|^2 = |\mel{\chi}{\U(t)^\dagger \U(t)}{\psi}|^2 = |\braket{\chi}{\psi}|^2
+\end{align}
+つまり，遷移先の状態もともに時間変化させれば，確率は保存される．
+
+\subsubsection{シュレディンガー方程式}
+量子系の状態変化を記述する運動方程式，シュレディンガー方程式を要請する．
+\begin{equation}
+    i\hbar\pdv{t}\ket{\psi(t)} = \H\ket{\psi(t)}
+\end{equation}
+ここで$\H$はハミルトニアン（Hamiltonian）で，エネルギーの次元を持つ．ここでは，ハミルトニアンが時間に依存しない状況を考える．シュレディンガー方程式に$\ket{\psi(t)} = \U(t)\ket{\psi}$を代入する．
+\begin{equation}
+    i\hbar\pdv{\U(t)}{t}\ket{\psi} = \H\U(t)\ket{\psi}
+\end{equation}
+ここで初期状態$\ket{\psi}$は好きに決められるので，
+\begin{equation}
+    i\hbar\pdv{\U(t)}{t} = \H\U(t)
+\end{equation}
+が必要．これは$\U(t)$についての簡単な微分方程式で，初期条件$\U(0)=\I$と合わせてこれを解くと
+\begin{equation}
+    \U(t) = e^{-\frac{i}{\hbar}\H t}
+\end{equation}
+となる．ここで
+\begin{equation}
+    e^{-\frac{i}{\hbar}\H t} = \sum_{n=0}^\inf \frac{1}{n!} \left(-\frac{i}{\hbar}\H t\right)^n
+\end{equation}
+である．時間発展演算子には，ユニタリーであることを要請していた．これを確認すると，
+\begin{align}
+    \U(t)^\dagger \U(t) &= e^{\frac{i}{\hbar}\H^\dagger t}e^{-\frac{i}{\hbar}\H t}\\
+    &= e^{\frac{i}{\hbar}(\H^\dagger - \H)t}
+\end{align}
+これが恒等演算子$\I$に等しいので，$\H^\dagger = \H$となる．つまり，ハミルトニアンは自己共役である．
+
+\subsubsection{エネルギー固有状態}
+ハミルトニアンは自己共役でであるから，物理量を表しうる．実際，ハミルトニアンはエネルギーを表す物理量であり，その固有値が系のエネルギーとみなされる．ハミルトニアンを実際に構成して，具体的に固有値問題を解く（エネルギーを求める）ことは次章にまわして，固有状態のときについて考えよう．固有状態ということは，すなわち状態ベクトルが
+\begin{equation}
+    \H \ket{\phi} = E\ket{\phi}
+\end{equation}
+を満たすということ．離散スペクトルならば，上式を満たすような固有ベクトルを集めてCONSが作れるので，このときは測定値は100\%で$E$になる．この固有状態の時間発展を考える．
+\begin{align}
+    \ket{\phi(t)} &= \U(t) \ket{\phi} \\
+    &= e^{-\frac{i}{\hbar}\H t} \ket{\phi} \\
+    &= e^{-\frac{i}{\hbar}Et} \ket{\phi}
+\end{align}
+となる．ここで三番目の等号は$e^z$の定義を振り返ればわかる．これを利用して，他の（固定した）状態への遷移確率は，
+\begin{equation}
+    \mathbb{P}(\ket{\chi} \xleftarrow{t} \ket{\phi}) = |\braket{\chi}{\phi(t)}|^2 = |e^{-\frac{i}{\hbar}Et}\braket{\chi}{\phi}|^2 = |\braket{\chi}{\phi}|^2
+\end{equation}
+となる．つまり，任意の状態への遷移確率は変化しない．この著しい特徴から，エネルギー固有状態は定常状態と呼ばれる．
+
+\begin{comment}
+    描像：時間発展演算子がユニタリー，ハミルトニアンは時間不変，シュレディンガー方程式
+\end{comment}
+
+\subsection{ハイゼンベルグ描像}
+今までシュレディンガー描像で考えてきたが，ハイゼンベルグ描像を見てみよう．ハイゼンベルグ描像は，状態が不変で，物理量が変化するとみなすのだった．この物理量の変化というのは次のように表される．
+\begin{equation}
+    \A(t) = \U(t)^\dagger \A \U(t)
+\end{equation}
+ここで$\U(t)$は時間発展演算子で，シュレディンガー描像でみてきたものと性質は変わらない．シュレディンガー描像で得られた結果$\U(t) = e^{-\frac{i}{\hbar}\H t}$を用いて，物理量の時間変化を求める．
+\begin{align}
+    \dv{\A(t)}{t} &= \dv{\U(t)^\dagger}{t}\A\U(t) + \U(t)^\dagger \A\dv{\U(t)}{t} \\
+    &= \frac{i}{\hbar} \H e^{\frac{i}{\hbar}\H t} \A e^{-\frac{i}{\hbar}\H t} - e^{\frac{i}{\hbar}\H t}\A e^{-\frac{i}{\hbar}\H t} \frac{i}{\hbar} \H \\
+    &= -\frac{i}{\hbar}\left(\A(t)\H - \H\A(t)\right) = -\frac{i}{\hbar}[\A(t), \H]
+\end{align}
+これがハイゼンベルグ描像における基礎方程式で，ハイゼンベルグ方程式である．ここではシュレディンガー方程式からハイゼンベルグ方程式が導出された．
+
+一方で，ハイゼンベルグ方程式を要請としてシュレディンガー方程式を導出することもできる．まず，ハイゼンベルグ方程式から，
+\begin{align}
+   \dv{\A(t)}{t} &= -\frac{i}{\hbar}(\U^\dagger\A\U\U^\dagger\H\U - \U^\dagger\H\U\U^\dagger\A\U) \\
+   &= -\frac{i}{\hbar}\U(t)^\dagger(\A\H-\H\A)\U(t) \\
+   &= \U(t)^\dagger \left[\A, -\frac{i}{\hbar}\H\right] \U(t)
+\end{align}
+ここで，ハミルトニアンが時間変化しないことを用いた．一方で$\A(t) = \U(t)^\dagger \A \U(t)$より
+\begin{equation}
+    \dv{\A(t)}{t} = \dv{\U^\dagger}{t}\A\U + \U^\dagger\A\dv{\U}{t}
+\end{equation}
+である．$\U(t)\U(t)^\dagger = \I$から，この両辺を時間微分して，
+\begin{align}
+    \dv{\U}{t}\U^\dagger + \U\dv{\U^\dagger}{t} &= 0 \\
+    \U\dv{\U^\dagger}{t} &= -\dv{\U}{t}\U^\dagger
+\end{align}
+となることを使うと，
+\begin{align}
+    \dv{\A(t)}{t} &= \U^\dagger\U\dv{\U^\dagger}{t}\A\U + \U^\dagger\A\dv{\U}{t}\U^\dagger\U \\
+    &= \U(t)^\dagger\left(\A\dv{\U}{t}\U^\dagger - \dv{\U}{t}\U^\dagger\A\right)\U(t) \\
+    &= \U(t)^\dagger\left[\A,\dv{\U}{t}\U^\dagger\right] \U(t)
+\end{align}
+だから，二通りの表し方を比較して，
+\begin{equation}
+    \U(t)^\dagger \left[\A, -\frac{i}{\hbar}\H\right] \U(t) = \U(t)^\dagger\left[\A,\dv{\U}{t}\U^\dagger\right] \U(t)
+\end{equation}
+これが任意の$\A$で成り立つのだから，
+\begin{align}
+    -\frac{i}{\hbar}\H &= \dv{\U(t)}{t}\U(t)^\dagger \\
+    -\frac{i}{\hbar}\H\U(t) &= \dv{\U(t)}{t}
+\end{align}
+である．この微分方程式を解けば，$U(t) = e^{-\frac{i}{\hbar}\H t}$がわかる．シュレディンガー描像では状態が時間変化する：$\ket{\psi(t)} = \U(t)\ket{\psi}$．これに先程求めた$\U(t)$を用いて時間微分すれば，シュレディンガー方程式が出てくる．
+
+\begin{comment}
+    要請：時間発展演算子がユニタリー，ハミルトニアンは不変，ハイゼンベルグ方程式
+\end{comment}
+
+\section{10講 調和振動子}
+古典力学からのアナロジーで，量子力学でも調和振動子を考える．古典力学の調和振動子の力学的エネルギーは，位置$x$と運動量$p$，角振動数$\omega$によって
+\begin{equation}
+    E = \frac{p^2}{2m} + \frac{1}{2} m\omega^2x^2
+\end{equation}
+と表される．古典力学からのアナロジーで，これらをすべて演算子に置き換えたものをハミルトニアンとする．
+\begin{equation}
+    \H = \frac{\P^2}{2m} + \frac{1}{2} m\omega^2\X^2
+\end{equation}
+ハイゼンベルグ方程式を考えると，運動方程式は次のようになる．
+\begin{align}
+    \dv{\P}{t} &= -\frac{i}{\hbar}[\P(t),\H] = -m\omega^2\X \\
+    \dv{\X}{t} &= -\frac{i}{\hbar}[\X(t),\H] = \frac{\P}{m}
+\end{align}
+この計算には正準交換関係$[\X, \P] = i\hbar\I$を使った．この運動方程式を解くことを考える．第一式に$i$をかけ，第二式に$m\omega$をかけたものを足し合わせると，
+\begin{equation}
+    \dv{t}(m\omega\X + i\P) = -i\omega(m\omega\X + i\P)
+\end{equation}
+となる．したがって
+\begin{equation}
+    m\omega\X(t) + i\P(t) = e^{-i\omega t}(m\omega\X(0) + i\P(0))
+\end{equation}
+両辺を比較することで解が得られる．
+\begin{align}
+    \X(t) &= \X(0)\cos{\omega t} + \frac{1}{m\omega}\P(0)\sin{\omega t} \\
+    \P(t) &= \P(0)\cos{\omega t} - m\omega\X(0)\sin{\omega t}
+\end{align}
+次にハミルトニアンの固有値問題を考える．ここで先程計算で利用した式を$\A = m\omega\X + i\P$とおく．すると，
+\begin{equation}
+    [\A, \A^\dagger] = 2m\hbar\omega\I 
+\end{equation}
+となるので，これが$\I$となるように係数を付け足したものを新しく$\A$とおく：$\A = \frac{1}{\sqrt{2m\hbar\omega}}(m\omega\X+i\P)$．$[\A, \A^\dagger] = \I$である．これを用いて$\H$を書き直す．
+\begin{align}
+    \H &= \hbar\omega\left(\A^\dagger\A + \frac{1}{2}\I\right) \\
+    &= \hbar\omega\left(\N + \frac{1}{2}\I\right)
+\end{align}
+ここで$\N = \A^\dagger\A$とおいた．ハミルトニアンの固有値問題は$\N$の固有値問題を解くことに置き換わった．$\N$と$\A$の性質は次のようになる．どれも簡単な計算をすればわかる．
+\begin{align}
+    [\N, \A] &= -\A \\
+    [\N, \A^\dagger] &= \A^\dagger
+\end{align}
+
+\end{document}

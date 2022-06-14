@@ -1,0 +1,45 @@
+\documentclass[a4paper,10pt,uplatex]{jsarticle}
+
+
+% 数式
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage[thicklines]{cancel}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tikz}
+
+
+\begin{document}
+
+\title{重積分}
+\author{}
+\date{\today}
+\maketitle
+
+\section*{面積分}
+基本となる座標系はデカルト座標$(x,y,z)$である．線分の長さは$\sqrt{dx^2+dy^2+dz^2}$のように表される．この座標系上の曲面を2つのパラメータ$s,t$を使って$S:\vb*{r}(s,t)$と表す．このとき，曲面には$s$，$t$による，歪んでいてもよい目盛り（網目）が張り巡らされる．曲面上の点は$(s,t)$を指定すれば一意に定まるからである．今$(s,t)$にいるとき，微小な距離だけ進んで$(s+ds,t)$に行くにはどちらの方向にどれだけ進めば良いのだろうか．\footnote{この答えは$ds$ではないことに気をつけねばならない．なぜなら距離は基本となる座標系（デカルト座標系）によって定義されているものだからだ．}
+この答えは
+\begin{equation}
+    \vb*{r}(s+ds,t) - \vb*{r}(s,t) \to \pdv{\vb*{r}(s,t)}{s} ds
+\end{equation}
+となる．$t$についても同様で，$(s,t)$から$(s,t+dt)$に行くには$(\partial\vb*{r}(s,t)/\partial t)dt$移動すればよい．ところで$(s,t)$における面の法線ベクトルは，この点から面上でどの方向に進むベクトルとも直交するベクトルのことである．したがって法線ベクトルの方向は，上で求めた微小移動を表す2つのベクトルの外積として表せる（向きは2方向ありえる）．また，この曲線上の微小面積$dS$は，$(s,t)$と$(s+ds,t+dt)$の間の平行四辺形の面積のこと．同様に外積を使えば
+\begin{equation}
+    dS = \left|\pdv{\vb*{r}(s,t)}{s} \times \pdv{\vb*{r}(s,t)}{t}\right|dsdt
+\end{equation}
+と書ける．したがって，曲線上の面積分は，まずスカラー場について
+\begin{equation}
+    \iint_S f(\vb*{r}) \dd{S} = \iint_D f(\vb*{r}(s,t)) \left|\pdv{\vb*{r}}{s} \times \pdv{\vb*{r}}{t}\right|\dd{s}\dd{t}
+\end{equation}
+となる．ここで$D$は$s,t$の取りうる領域．ベクトル場については
+\begin{equation}
+    \iint_S \vb*{f}(\vb*{r}) \cdot \vb*{n} \dd{S} = \iint_D \vb*{f}(\vb*{r}(s,t)) \cdot \left( \pdv{\vb*{r}}{s} \times \pdv{\vb*{r}}{t}\right) \dd{s}\dd{t}
+\end{equation}
+となる．$n$は法線ベクトル．法線ベクトルの方向によって，符号の異なる2つの結果があり得る．
+
+\end{document}

@@ -1,0 +1,43 @@
+\documentclass[a4paper,10pt,uplatex]{jsarticle}
+
+
+% 数式
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage[thicklines]{cancel}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tikz}
+
+
+\begin{document}
+
+\title{テンソル解析}
+\author{}
+\date{\today}
+\maketitle
+
+\section{エディントンのイプシロン（Levi-civita記号）}
+\subsection{性質}
+\begin{align}
+    &\varepsilon_{ijk} = \varepsilon_{jki} = \varepsilon_{kij} \\
+    &\varepsilon_{ijk} = -\varepsilon_{ikj} = -\varepsilon_{jik} = -\varepsilon_{kji}
+\end{align}
+\subsection{公式}
+\subsubsection{外積}
+\begin{align}
+    (\vb*{a} \times \vb*{b})_i &= \varepsilon_{ijk}a_jb_k \\
+    (\vb*{a} \times \vb*{b})_j &= \varepsilon_{ijk}a_kb_i \\
+    (\vb*{a} \times \vb*{b})_k &= \varepsilon_{ijk}a_ib_j 
+\end{align}
+\begin{align}
+    \varepsilon_{ijk}\varepsilon_{lmk} = \delta_{il}\delta_{jm} - \delta_{im}\delta_{jl}
+\end{align}
+
+
+\end{document}

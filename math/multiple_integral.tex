@@ -14,6 +14,7 @@
 \usepackage{here}
 \usepackage{tikz}
 
+\newcommand{\ds}{\displaystyle}
 
 \begin{document}
 
@@ -40,6 +41,22 @@
 \begin{equation}
     \iint_S \vb*{f}(\vb*{r}) \cdot \vb*{n} \dd{S} = \iint_D \vb*{f}(\vb*{r}(s,t)) \cdot \left( \pdv{\vb*{r}}{s} \times \pdv{\vb*{r}}{t}\right) \dd{s}\dd{t}
 \end{equation}
-となる．$n$は法線ベクトル．法線ベクトルの方向によって，符号の異なる2つの結果があり得る．
+となる．$\vb*{n}$は法線ベクトルで，ここでは
+\begin{equation}
+    \vb*{n} = \pdv{\vb*{r}}{s} \times \pdv{\vb*{r}}{t}
+\end{equation}
+ととっている．法線ベクトルのとりかたによって，符号の異なる2つの結果があり得る．
 
+\section*{体積積分}
+ある領域の内部をパラメータ$s,t,u$を使って$\vb*{r}(s,t,u)$と表す．面積分のときと同様にして，領域にこれらによる目盛りが張り巡らされる．このとき微小体積要素は，
+\begin{align}
+    dV &= \left| \left(\pdv{\vb*{r}}{s} \times \pdv{\vb*{r}}{t}\right) \cdot \pdv{\vb*{r}}{u} \right| dsdtdu \\
+    &= \mqty| \ds \pdv{\vb*{r}}{s} \; \pdv{\vb*{r}}{t} \; \pdv{\vb*{r}}{u} | dsdtdu
+\end{align}
+である．最後の式は行列式だが，ヤコビアンとも呼ばれる．行列式の性質として，転置しても結果が変わらない．
+このとき体積積分は
+\begin{equation}
+    \iiint_D f(\vb*{r}) dV = \iiint_D f(\vb*{r}(s,t,u)) \mqty| \ds \pdv{\vb*{r}}{s} \; \pdv{\vb*{r}}{t} \; \pdv{\vb*{r}}{u} | \dd{s}\dd{t}\dd{u}
+\end{equation}
+となる．
 \end{document}

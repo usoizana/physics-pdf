@@ -1,0 +1,76 @@
+\documentclass[a4paper,10pt,uplatex]{jsarticle}
+
+
+% 数式
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage[thicklines]{cancel}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{tikz}
+
+\newcommand{\intall}{\int_{-\infty}^{\infty}}
+
+\begin{document}
+
+\title{Fourier解析}
+\author{}
+\date{\today}
+\maketitle
+
+厳密な話はしない（というかできない）ので，気持ちの部分だけ書く．
+
+\section{なぜFourier解析？}
+なぜFourier解析をするのか？それは，複雑でよくわからない関数をわかりやすい形に書き換えることができるからだ．ここで「わかりやすい」という部分には注意が必要で，いくら簡単な関数の和（例えば$\sin x$など）に置き換えられても，物理を考える上では，物理的意味がそこにあるかを考えなければいけない．例えば電磁波をFourier変換によって解析するとき，$\{e^{i\vb*{k}\cdot\vb*{x}}\}$という基底を使うが，それは$Ae^{i(\vb*{k}\cdot\vb*{x} - \omega t)}$が波数ベクトル$\vb*{k}$の進行波を表すと知っているからである．
+
+Fourier解析をするときに使える基底は色々あるが，（実情は知らないが）そういう物理的意味を持っているものを選ぶ必要があるのかもしれない．
+
+\section{Fourier係数}
+関数による空間を考える．そうすると，線形代数のように基底のようなものがとれて，この空間の任意の元は基底によって展開できると嬉しそうだ．それが実際にできるのである．
+基底としては，$\mathbb{R}^3$空間でのデカルト座標系のように，直交系を取ると楽そうだ．関数の直交条件というのを定義するために，まずは内積を次のように定義する．
+\begin{equation}
+    (f, g) = \int_{a}^{b} f(x)^* g(x) \dd{x}
+\end{equation}
+積分区間はケース・バイ・ケースで変わる．そして直交条件は，まず基底がたかだか加算個となる場合は
+\begin{equation}
+    (f_i, f_j) = \int_{a}^{b} f_i(x)^* f_j(x) \dd{x} = \delta_{ij}
+\end{equation}
+とする．ここで$i,j \in \mathbb{N}$．非可算個となる場合は，クロネッカーのデルタの代わりに，デルタ関数を用いて次のように定義する．
+\begin{equation}
+    (f_p, f_q) = \int_{a}^{b} f_p(x)^*f_q(x) \dd{x} = \delta(p-q)
+\end{equation}
+ここで$p,q \in \mathbb{R}$．
+
+\footnote{基底の濃度についてはどこに詳しいことが書いてあるのだろうか？}
+
+\section{Fourier変換}
+$x$の連続関数$f(x)$を実数の濃度を持つ基底$\{e^{ikx}\}$で展開することを考える．この基底が直交条件を満たしていることはすぐ確認できる\footnote{正確には$\delta(k-k')$ではなく，$2\pi\delta(k-k')$になるが，定数なので気にしない}．
+\begin{equation}
+    \int_{-\infty}^{\infty} e^{-ik'x} e^{ikx} \dd{k} = \int_{-\infty}^{\infty} e^{i(k-k')x} \dd{k} = 2\pi\delta(k' - k)
+\end{equation}
+展開式が次のようになるとする：
+\begin{equation}
+    f(x) = \int_{-\infty}^{\infty} \tilde{f}(k) e^{ikx} \dd{k}
+\end{equation}
+基底$e^{ik'x}$による展開係数$\tilde{f}(k')$を求めよう．それには内積をとればよい．
+\begin{align}
+    \int_{-\infty}^{\infty} f(x) e^{-ik'x} \dd{x} &= \intall \dd{k} \tilde{f}(k) \left( \intall e^{i(k-k')x} \dd{x} \right) \\
+    &= 2\pi \intall \tilde{f}(k) \delta(k-k') \dd{k} \\
+    &= 2\pi \tilde{f}(k')
+\end{align}
+したがって，展開係数ともとの関数の間には
+\begin{equation}
+    \tilde{f}(k) = \frac{1}{2\pi} \intall f(x) e^{-ikx} \dd{x}
+\end{equation}
+という関係がある．これはもとの関数の形と酷似しているが，変数が異なる．このようにして$f(x)$から$\tilde{f}(k)$のような関数への変換をFourier変換という．変換によってできる関数は基底のとり方や展開の仕方によって係数部分が変わる．例えば基底として$\{e^{ikx}/\sqrt{2\pi}\}$をとれば，対称性のあからさまな変換
+\begin{equation}
+    f(x) = \frac{1}{\sqrt{2\pi}} \intall \tilde{f}(k) e^{ikx} \dd{k}, \quad \tilde{f}(k) = \frac{1}{\sqrt{2\pi}} \intall f(x) e^{-ikx} \dd{x}
+\end{equation}
+となる．ここでは基底として$\{e^{ikx}\}$を選んだが，直交条件を満たせば他の基底も当然選ぶことができる．
+
+\end{document}

@@ -14,9 +14,9 @@
 \usepackage{here}
 \usepackage{tikz}
 
-\newcommand{\rot}{\mathrm{rot}}
-\renewcommand{\div}{\mathrm{div}}
-\renewcommand{\grad}{\mathrm{grad}}
+\newcommand{\rot}{\mathrm{rot}\;}
+\renewcommand{\div}{\mathrm{div}\;}
+\renewcommand{\grad}{\mathrm{grad}\;}
 \newcommand{\E}{\vb*{E}}
 \newcommand{\B}{\vb*{B}}
 \newcommand{\D}{\vb*{D}}
@@ -26,6 +26,8 @@
 \newcommand{\x}{\vb*{x}}
 \renewcommand{\i}{\vb*{i}}
 \newcommand{\n}{\vb*{n}}
+
+\newcommand{\ds}{\displaystyle}
 
 \begin{document}
 
@@ -172,4 +174,37 @@ Greenの相反定理を用いて，$n$個の導体が固定されている系に
     \item 電場$\E$の境界面の接線成分は連続．
 \end{itemize}
 境界面の法線は一本だけだが，接線というのは接平面上の任意の直線のことで，無限にある．このことに注意すると，境界面の電場の接平面への射影は，同一直線上にあることがわかる．
+
+\section{定常電流}
+\subsection{電流とは}
+電流は自由電子の流れのことである．自由電子がない絶縁体や誘電体などでは，電流は流れない．
+
+\subsection{電流が流れているのに真電荷が0？}
+定常電流において，Maxwell方程式とOhmの法則と電流の保存則で時間変化がないものと仮定すると，真電荷について
+\begin{equation}
+    \pdv{\rho_e}{t} = 0
+\end{equation}
+である．これは，領域内に入ってくる電子と出ていく電子の量が等しいことを言っている．これから
+\begin{equation}
+    \div i = 0
+\end{equation}
+がわかる．他の法則をまとめると
+\begin{align}
+    \div \i &= 0 \\
+    \div \E &= \ds \frac{\rho_e}{\varepsilon} \\
+    \i &= \sigma \E
+\end{align}
+となる．このとき最後の式で発散をとると
+\begin{equation}
+    \div \i = \sigma \div \E
+\end{equation}
+より，
+\begin{equation}
+    \rho_e = 0
+\end{equation}
+となる．つまり，真電荷は0である．これは一見すると，自由電子が流れているはずの電流が存在しているのに真電荷がない謎の状況のように思える．しかし，物体中にはたくさんの原子が詰まっていることと，真電荷の値は，原子よりも十分大きい範囲の電荷の平均値をとっていることに注意すると，謎は解消される．つまり，もともと領域内では正電荷と負電荷が同じだけいて，全体として中性である．そして自由電子が領域内に入ってくると同時に，電流が出ていく領域の境界ギリギリにいた電子が外に出ていく．正電荷のペアとなっている電子がシフトしていくイメージが正しい．そうすれば，電流は流れているし，真電荷は常に0となる．
+
+\subsection{起電力}
+上のイメージのようにして電流は流れているのだが，電子がシフトしていくとして，そのスタート地点はどこなのだろう，という疑問が新たに生まれてくる．これが無限の長さの導線ならばスタート地点の問題は考えなくても良いのだが，現実にはそんなものはなく，ほとんどが閉回路である．閉回路内に特別な点がないとしたら，スタート地点が存在しないことになって，電流は流れないはずだ．このことから，定常電流が流れるなら特別な点が必ず存在しなければいけないことがわかる．その点（領域）のことを外部起電力という．
+
 \end{document}

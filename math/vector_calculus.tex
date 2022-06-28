@@ -53,7 +53,54 @@
 は，電場は，静電ポテンシャルが最もはやく減る方向を向いていることを意味している．
 
 \subsection{発散（divergence）}
-ベクトル関数$f$について，ベクトルは大きさを持った矢印で，流れのようなイメージを持つ．流れというからには発生源があるだろうから，その「湧き出し」というものを調べたい．これが発散（divergence）である．そのためには，微小体積の領域を考えて，その領域での流出量を調べればよい．流出量が正ならば，その領域には流れの発生源があることになる．\footnote{ここに図を挿入}
+ベクトル関数$f$について，ベクトルは大きさを持った矢印で，流れのようなイメージを持つ．流れというからには発生源があるだろうから，その「湧き出し」というものを調べたい．これが発散（divergence）である．そのためには，微小体積の領域を考えて，その領域での流出量を調べればよい．流出量が正ならば，その領域には流れの発生源があることになる．
+
+\begin{center}
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Cube [id:dp8823017092217575] 
+\draw   (470,136.35) -- (505.85,100.5) -- (591.5,100.5) -- (591.5,184.15) -- (555.65,220) -- (470,220) -- cycle ; \draw   (591.5,100.5) -- (555.65,136.35) -- (470,136.35) ; \draw   (555.65,136.35) -- (555.65,220) ;
+%Straight Lines [id:da19373668614997297] 
+\draw    (506.25,184.75) ;
+\draw [shift={(506.25,184.75)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]      (0, 0) circle [x radius= 3.35, y radius= 3.35]   ;
+%Straight Lines [id:da8073232317891015] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (505.85,100.5) -- (506.25,184.75) ;
+%Straight Lines [id:da9297710737173726] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (470,220) -- (506.25,184.75) ;
+%Straight Lines [id:da3678597801005632] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (506.25,184.75) -- (591.5,184.15) ;
+%Straight Lines [id:da24666983590019065] 
+\draw    (470,220) ;
+\draw [shift={(470,220)}, rotate = 0] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]      (0, 0) circle [x radius= 3.35, y radius= 3.35]   ;
+%Curve Lines [id:da40506601647137597] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (446.75,156.75) .. controls (491.25,156.75) and (489.25,164.75) .. (506.25,184.75) ;
+%Left Arrow [id:dp013277215857044222] 
+\draw   (481.27,210.21) -- (490.11,191.02) -- (492.77,194.01) -- (513.99,174.19) -- (519.3,180.17) -- (498.07,199.98) -- (500.73,202.97) -- cycle ;
+%Left Arrow [id:dp37638426039257555] 
+\draw   (579.73,113.75) -- (571.93,133.39) -- (569.12,130.55) -- (548.99,151.48) -- (543.37,145.79) -- (563.5,124.86) -- (560.69,122.02) -- cycle ;
+
+% Text Node
+\draw (393,230.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$( t_{1} +dt_{1} ,t_{2} ,t_{3})$};
+% Text Node
+\draw (391.5,149.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$( t_{1} ,t_{2} ,t_{3})$};
+% Text Node
+\draw (506.75,222.9) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$ds'_{2}$};
+% Text Node
+\draw (448.75,168.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$ds'_{3}$};
+% Text Node
+\draw (535.75,167.9) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$ds_{2}$};
+% Text Node
+\draw (487.25,139.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize]  {$ds_{3}$};
+
+\end{tikzpicture}
+
+\end{center}
+
+まずは$t_1$軸に直交する2つの面からの流出量を考えよう．$t_1$軸に向かう方向の面からの流出を$f(t_1+dt_1,t_2,t_3)$に，逆方向の面からの流出を$f(t_1,t_2,t_3)$に代表させることにする．普通の領域を考えるときは面上でも$f$の値は変わるから面積分をしなければいけないのだが，今回は微小面積なので，面上の一点を代表して使う近似を用いる．そうすると流出量は以下のように計算できる．
 \begin{align}
     &f_1(t+dt_1, t_2, t_3) ds_2' ds_3' - f_1(t_1, t_2, t_3) ds_2 ds_3 \\
     &\quad = \left(f_1 + \pdv{f_1}{t_1}dt_1\right)\left(h_2+\pdv{h_2}{t_1}dt_1\right)dt_2\left(h_3+\pdv{h_3}{t_1}dt_1\right)dt_3 - f_1h_2h_3dt_2dt_3 \\

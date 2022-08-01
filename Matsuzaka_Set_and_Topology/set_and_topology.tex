@@ -42,6 +42,8 @@
 \theoremstyle{mystyle}
 \newtheorem{dfn}{定義}[section]
 \newtheorem{thm}{定理}[section]
+\newtheorem{lem}[thm]{補題}
+\renewcommand{\proofname}{\textbf{証明}}
 
 \newcommand{\gA}{\mathfrak{A}}
 \newcommand{\gB}{\mathfrak{B}}
@@ -49,6 +51,17 @@
 \newcommand{\gM}{\mathfrak{M}}
 \newcommand{\gO}{\mathfrak{O}}
 \newcommand{\gP}{\mathfrak{P}}
+\newcommand{\gS}{\mathfrak{S}}
+
+\newcommand{\R}{\mathbb{R}}
+
+% 数式の上下のスペースの変更
+\AtBeginDocument{
+  \abovedisplayskip     =0.5\abovedisplayskip
+  \abovedisplayshortskip=0.5\abovedisplayshortskip
+  \belowdisplayskip     =0.5\belowdisplayskip
+  \belowdisplayshortskip=0.5\belowdisplayshortskip
+}
 
 \begin{document}
 
@@ -252,6 +265,13 @@ $\gO$に対してその準基底は一意的には定まらない．
 \end{dfn}
 $\gO$に対してその基底は一意的には定まらない．
 
+\begin{figure}[h]
+    \begin{center}
+    \includegraphics[width = 50mm]{基底.jpeg}
+    \caption{基底の定義のイメージ図}
+    \end{center}
+\end{figure}
+
 $\gB$が$\gO$の基底であるということは$\gB$には$\gO$を構成する最低限のパーツ（開集合）は揃っているということで，上の定義は$\gB$の元を適当に貼り合わせれば$\gO$の任意の元が作り出せることを表している．
 基底ではないが準基底であるものは，大きいパーツしかなくて$\gO$の小さな元が表せないが，交わりをとって小さな元を補うことで最低限のパーツが揃う．
 基底が位相の"もと"であるとしたら，準基底は基底の"もと"だとも言えそうだ．
@@ -295,6 +315,7 @@ $\gB$が$\gO$の基底であるということは$\gB$には$\gO$を構成する
 \begin{thm}
     位相空間$(S,\gO)$が第2可算公理を満足すれば，第1可算公理も満足する．
 \end{thm}
+例えば$\bm{V}_\gB^*(x)$は基底$\gB$と$\bm{V}_\gB^*(x) \subset \gB$という関係にあるので，第2可算公理を満足していれば当然第1可算公理も満足する．
 
 \subsubsection{可分位相空間}
 \begin{dfn}[密，稠密]
@@ -319,6 +340,112 @@ $(S,\gO)$の1つの基底$\gB$が与えられたとする．基底は$S$をい�
 
 \subsection{連続写像}
 \subsubsection{連続写像}
+$(S,\gO)$、$(S',\gO')$を2つの位相空間とする．以下，これらを単に$S,S'$と略記する．
 
+\begin{thm}[連続写像の条件]
+    $f$を$S$から$S'$への与えられた1つの写像とする．位相空間$S,S'$の閉集合系をそれぞれ$\gA,\gA'$とし，$S,S'$の点$x,x'$の（$S,S'$における）近傍系を$\bm{V}_S(x), \bm{V}_{S'}(x')$とする．そのとき，（$f$に関する）次の3条件は互いに同等である．
+    \begin{enumerate}
+        \item \hfill
+        \vspace{-\abovedisplayskip} 
+        \begin{equation}
+            O' \in \gO' \Rightarrow f^{-1}(O') \in \gO．
+        \end{equation} \label{thm:連続写像の条件1}
+        \item \hfill
+        \vspace{-\abovedisplayskip}
+        \begin{equation}
+            A' \in \gA' \Rightarrow f^{-1}(A') \in \gA．
+        \end{equation}
+        \item $S$の各点$x$に対し，$f(x) = x'$とすれば
+        %\vspace{-\abovedisplayskip}
+        \begin{equation}
+            V' \in \bm{V}_{S'}(x') \Rightarrow f^{-1}(V') \in \bm{V}_S(x)．
+        \end{equation} \label{thm:連続写像の条件3}
+    \end{enumerate}
+\end{thm}
+
+\begin{dfn}[連続写像]
+    上の3つの条件のうちいずれか（したがって全部）が成り立つとき，$f$は$S$から$S'$への連続写像であるという．
+\end{dfn}
+
+\begin{thm}[準基底による連続写像の条件] \label{thm:準基底による連続写像の条件}
+    写像$f:S \to S'$が連続であるためには，$\gM'$を位相空間$S'$の1つの準基底（すなわち$\gO(\gM') = \gO'$）とするとき，任意の$M \in \gM'$に対して$f^{-1}(M) \in \gO$となることが，必要かつ十分である．
+\end{thm}
+これは連続写像の条件\ref{thm:連続写像の条件1}を弱めたもの．定理の条件を論理式で書くとわかりやすい：
+\begin{equation}
+    M \in \gM' \Rightarrow f^{-1}(M) \in \gO
+\end{equation}
+$\gM' \subset \gO'$だから$M \in \gO'$で，必要であることは明らか．十分性を示すためには次の補題を使う（こちらの方が本質的に重要な気がする）．
+
+\begin{lem}
+    集合系$\gS$を，$f^{-1}(M) \in \gO$となるような$S'$の部分集合$M$全体からなるものとする．つまり，
+    \begin{equation}
+        \gS = \{M | f^{-1}(M) \in \gO\}
+    \end{equation}
+    とする．このとき，$\gS$は$S'$における位相である．
+\end{lem}
+これを認めれば，$\gM' \subset \gS$より$\gO' \subset \gS$．したがって$O' \in \gO'$は$O' \in \gS$でもあり，$f^{-1}(O') \in \gO$を満たす．つまり\ref{thm:連続写像の条件1}が満たされる．$\gO' \subset \gS$というのが肝である．こうなるような条件のうち，最も緩いのが準基底を使ったものなのだ（$準基底 \subset 基底 \subset 位相$だから）．
+
+\begin{dfn}[連続]
+    $f$が$S$から$S'$への写像で，連続写像の条件\ref{thm:連続写像の条件3}が$S$の全ての点の代わりに$S$のある1点$x_0$に対して成り立つとき，すなわち
+    \begin{equation}
+        V' \in \bm{V}_{S'}(x_0') \Rightarrow f^{-1}(V') \in \bm{V}_S(x_0)
+    \end{equation}
+    が成立するとき，$f$は点$x_0$において連続であるという．
+\end{dfn}
+
+\begin{thm}[基本近傍系による連続の条件] \label{thm:基本近傍系による連続の条件}
+    上記の連続の条件は，基本近傍系$\bm{V}_{S'}^*(x_0')$によって
+    \begin{equation}
+        V'^* \in \bm{V}_{S'}^*(x_0') \Rightarrow f^{-1}(V') \in \bm{V}_S(x_0)
+    \end{equation}
+    と置き換えても同じことになる．
+\end{thm}
+
+\begin{proof}
+    必要性は$\bm{V}_{S'}^*(x_0') \subset \bm{V}_{S'}(x_0')$より明らか．十分性を示す．$V' \in \bm{V}_{S'}(x_0')$とする．このとき$V'^* \subset V'$なる$V'^* \in \bm{V}_{S'}^*(x_0')$が存在する．よって
+    \begin{equation}
+        f^{-1}(V'^*) \subset f^{-1}(V')
+    \end{equation}
+    仮定より$f^{-1}(V'^*) \in \bm{V}_{S}(x_0)$だから，$f^{-1}(V') \in \bm{V}_{S}(x_0)$．
+\end{proof}
+$\bm{V}_{S'}(x_0') \subset \bm{V}_{S'}^*(x_0')$だから直感的にはわかりづらいが，近傍は$A \subset B$で$A \in \bm{V}(x)$ならば$B \in \bm{V}(x)$という性質に注意すればわかる．
+
+\subsubsection{実連続関数}
+\begin{dfn}[実数値関数，実連続関数]
+    位相空間$S$から実数全体の集合が作る位相空間$\R$への一般の写像を$S$上の実数値関数とよび，そのうち$S$から$\R$への連続写像であるものを実連続関数という．
+\end{dfn}
+
+\begin{thm}[実連続関数であるための条件]
+    位相空間$S$で定義された実数値関数$f$が実連続関数であるためには，次の1,2,3のいずれかが成り立つことが必要十分である．
+    \begin{enumerate}
+        \item $\R$の任意の開区間$(a,b)$に対して
+        \begin{equation}
+            f^{-1}((a,b)) = \{x | x \in S, a<f(x)<b\}
+        \end{equation}
+        は$S$の開集合である．
+
+        \item 任意の実数$a,b$に対して
+        \begin{equation}
+            f^{-1}((a,\infty)) = \{x | x \in S, f(x) > a\}
+        \end{equation}
+        および
+        \begin{equation}
+            f^{-1}((-\infty,b)) = \{x | x \in S, f(x) < b\}
+        \end{equation}
+        は$S$の開集合である．
+
+        \item $x_0$を$S$の任意の点とするとき，任意の正の実数$\varepsilon$に対して
+        \begin{align}
+            &f^{-1}((f(x_0)-\varepsilon, f(x_0)+\varepsilon)) \\
+            &\quad = \{x \in S, |f(x) - f(x_0)| < \varepsilon\}
+        \end{align}
+        は$x_0$の$S$における近傍である．
+    \end{enumerate}
+\end{thm}
+これらは，$\R$の任意の開集合が$(a,b)$で表されること，準基底として$(a,\infty)$および$(-\infty,b)$の形の区間全体がとれること，$x_0$の基本近傍系として$(x_0 - \varepsilon, x_0 + \varepsilon)$の形の区間全体をとることができることを，それぞれ，連続写像の条件\ref{thm:連続写像の条件1}，準基底による連続写像の条件\ref{thm:準基底による連続写像の条件}，基本近傍系による連続の条件\ref{thm:基本近傍系による連続の条件}に適用したもの．
+
+\begin{thm}[連続関数の和，差，積，商]
+    $f,g$がともに位相空間$S$で定義された実連続関数ならば，$f+g, f-g, f\cdot g, af(a\in\R)$も実連続関数である．また，$S$のすべての点$x$において$g(x)\neq 0$ならば，$f/g$も実連続関数である．
+\end{thm} 
 
 \end{document}
